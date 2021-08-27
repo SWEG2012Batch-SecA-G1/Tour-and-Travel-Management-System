@@ -26,8 +26,34 @@ struct Place
 
 void add_user();            // receives input from user and add the registered user to the array
 void display_user();        // displays all the registered users with detail in tabular format
-void add_place();           // receives input and add the registered place to the array
-void display_place();       // displays all the registered places with detail in tabular format
+void add_place() // receives input and add the registered place to the array
+{
+    for (int i=0; i<nums; i++){
+        places[i].place_id=i+1;
+        cout<<"Location Name: ";
+        getline(cin>>ws,places[i].name);
+        cout<<"Distance From Addis Ababa: ";
+        cin>>places[i].distance;
+        cout<<"Location description: ";
+        getline(cin>>ws, places[i].discription);
+        cout<<"availability: ";
+        cin>>places[i].availability;
+    }
+}
+
+void display_place()    // displays all the registered places with detail in tabular format
+{
+        cout<<"Location Name \t Distance From Addis Ababa \t Location description \tAvailability \t Rating \n";
+    for (int i=0; i<nums; i++){
+        cout<<places[i].name<<"\t\t\t"<<places[i].distance<<"\t\t\t\t";
+        for(int j=0; j<8; j++){
+        cout<<places[i].discription[j];
+        }
+        if(places[i].discription.length()>8)
+        cout<<"...";
+        cout<<"\t\t"<<places[i].availability<<endl;
+    }
+}
 void rate_place();          // allows the user to rate a place
 void available_place();     // displays all the the available places that have an availability number > 0
 int login_user();           // asks the user for login authentication and if it is correct match returns 1 other wise -1
