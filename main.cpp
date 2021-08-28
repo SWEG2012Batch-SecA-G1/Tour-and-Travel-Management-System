@@ -59,3 +59,64 @@ void available_place();     // displays all the the available places that have a
 int login_user();           // asks the user for login authentication and if it is correct match returns 1 other wise -1
 int login_admin();          // asks for admin authentication and if it is correct returns 1 otherwise -1
 
+
+// asks the user for login authentication and if it is correct match returns 1 other wise -1
+int login_user(User *users, const int  nums)
+{
+    int loginAttempt = 0;
+    string userName, userPassword;
+    while (loginAttempt < 3)
+    {
+        cout << "Please enter your user name: "; //user enters user name.
+        cin >> userName;
+        cout << "Please enter your user password: ";//user enters password.
+        cin >> userPassword;
+
+        for (int i; i < nums; i++)//for loop authenticates user names and passwords.
+        {
+            if (userName == users[i].user_name && userPassword == users[i].password)
+            {
+                return 1;
+                break;
+            }
+        }
+        cout << "Invalid login attempt. Please try again.\n";
+        loginAttempt++;
+
+        if (loginAttempt == 3)
+        {
+                cout << "Too many login attempts!";
+                return -1;
+                break;
+        }
+    }
+}
+
+// asks for admin authentication and if it is correct returns 1 otherwise -1
+int login_admin()
+{
+    int loginAttempt = 0;
+    string adminName, adminPassword;
+    while (loginAttempt < 3)
+    {
+        cout << "Please enter Admin name: "; //admin enters user name.
+        cin >> adminName;
+        cout << "Please enter Admin password: ";//admin enters password.
+        cin >> adminPassword;
+
+        if (adminName == admin[0] && adminPassword == admin[1])
+        {
+                return 1;
+                break;
+        }
+        cout << "Invalid login attempt. Please try again.\n";
+        loginAttempt++;
+
+        if (loginAttempt == 3)
+        {
+                cout << "Too many login attempts!";
+                return -1;
+                break;
+        }
+    }
+}
