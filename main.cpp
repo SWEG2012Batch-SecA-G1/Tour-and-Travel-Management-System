@@ -249,3 +249,24 @@ int login_admin()
         }
     }
 }
+
+ void rate_place()
+{
+    int n, rate;
+    string ns;
+    display_place(0);
+    cout << "choose which country you want to rate: ";
+    cin >> n;
+    a:cout << "rate from 10 to 1";
+    cin >> rate;
+    if (rate > 10 && rate < 0)
+        goto a;
+    if (places[n - 1].rating = 0)
+        places[n - 1].rating = rate;
+    places[n - 1].rating = (places[n - 1].rating + rate) / 2;
+    cout << "press any key to go back";
+    getline(cin >> ws, ns);
+    system("cls");
+    user_option();
+}
+
