@@ -1,8 +1,14 @@
 #include <iostream>
+#include<string.h>
+#include<conio.h>
+#include<Windows.h>
 using namespace std;
 
-const int nums = 100;                   // Max number for the arrays
-string admin[2] = {"admin", "admin"};   // admin authentication username and password
+const int nums = 100;                               // Max number for the arrays
+string admin[2] = {"admin", "admin"};               // admin authentication username and password
+int loged_in = 0;                                   // the id of the user who logged in
+float rates[4] = {0.001, 0.1, 2};                   // discount rates per points, number of people, and cost per distance,
+int package_discounts[4] = {0,0.01,0.05,0.1};       // discount for single, couple, family and event packages
 
 struct User
 {
@@ -24,8 +30,136 @@ struct Place
     int availability;
 }places[nums];
 
-void add_user();            // receives input from user and add the registered user to the array
-void display_user();        // displays all the registered users with detail in tabular format
+void add_user();                        // receives input from user and add the registered user to the array
+void display_user();                    // displays all the registered users with detail in tabular format
+void add_place();                       // receives input and add the registered place to the array
+void display_place(int);                // displays all the registered places with detail in tabular format
+void rate_place();                      // allows the user to rate a place
+void available_place();                 // displays all the tIhe available places that have an availability number > 0
+int login_user();                       // asks the user for login authentication and if it is correct match returns 1 other wise -1
+int login_admin();                      // asks for admin authentication and if it is correct returns 1 otherwise -1
+int home();                             // home page options
+void user_option();                     // options for user after login
+void admin_option();                    // options for admin after login
+void tour_reservation(Register [nums]); // reserves a tour for the logged in user
+void tour_history();                    // filters history of tour registration for the logged in user used the variable loged_in to gets the id of the loged_in user
+void profile_of_user();                 // displays a profile of the logged in user
+void refill_availability();             // with an option to refill all the places or a given place
+
+int main()
+{
+    home();
+    return (0);
+}
+
+
+int home()
+{
+    int login = 0;
+    int choose;
+    cout << "1. register\n";
+    cout << "2. login\n";
+    cout << "3. admin\n";
+    cout << "4. exit\n";
+    cout << "choose: ";
+    cin >> choose;
+    switch(choose)
+    {
+        case 1:
+            system("cls");
+            add_user();
+            break;
+        case 2:
+            system("cls");
+            login = login_user();
+            if (login == 1)
+                user_option();
+            cout << "closing the app";
+            break;
+        case 3:
+            system("cls");
+            login = login_admin();
+            if (login == 1)
+                admin_option();
+        case 4:
+            return 0;
+            break;
+        default:
+            cout << "ERROR: input is out of bound";
+    }
+    return 0;
+}
+
+void user_option()
+{
+    int choose;
+    cout << "1. Broucher\n";
+    cout << "2. Open spot for each place\n";
+    cout << "3. rate place\n";
+    cout << "4. back to home\n";
+    cout << "choose: ";
+    cin >> choose;
+    switch(choose)
+    {
+        case 1:
+            system("cls");
+            display_place(1);
+            break;
+        case 2:
+            system("cls");
+            available_place();
+            break;
+        case 3:
+            system("cls");
+            rate_place();
+            break;
+        case 4:
+            system("cls");
+            home();
+            loged_in = 0;
+            break;
+        default:
+            cout << "ERROR: input is out of bound";
+    }
+
+}
+
+
+void admin_option()
+{
+    int s=4;
+    int choose;
+    cout << "1. List all users info\n";
+    cout << "2. List all places\n";
+    cout << "3. Add place\n";
+    cout << "4. home\n";
+    cout << "choose: ";
+    cin >> choose;
+    switch(choose)
+    {
+        case 1:
+            system("cls");
+            display_user();
+            break;
+        case 2:
+            system("cls");
+            display_place(4);
+            break;
+        case 3:
+            system("cls");
+            add_place();
+            break;
+        case 4:
+            system("cls");
+            home();
+            loged_in = 0;
+            break;
+        default:
+            cout << "ERROR: input is out of bound";
+    }
+
+}
+
 void add_place() // receives input and add the registered place to the array
 {
     for (int i=0; i<nums; i++){
@@ -54,11 +188,6 @@ void display_place()    // displays all the registered places with detail in tab
         cout<<"\t\t"<<places[i].availability<<endl;
     }
 }
-void rate_place();          // allows the user to rate a place
-void available_place();     // displays all the the available places that have an availability number > 0
-int login_user();           // asks the user for login authentication and if it is correct match returns 1 other wise -1
-int login_admin();          // asks for admin authentication and if it is correct returns 1 otherwise -1
-
 
 // asks the user for login authentication and if it is correct match returns 1 other wise -1
 int login_user(User *users, const int  nums)
