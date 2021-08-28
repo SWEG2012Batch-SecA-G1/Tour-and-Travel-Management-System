@@ -270,3 +270,30 @@ int login_admin()
     user_option();
 }
 
+void available_place()    // displays all the registered places with detail in tabular format
+{
+    string n;
+    int number_of_place;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
+    number_of_place--;
+    cout<<"Location Name \t Distance From Addis Ababa \t Location description \tAvailability \t Rating \n";
+    for (int i=0; i<number_of_place; i++){
+        if (places[i].availability > 0)
+        {
+            cout<<places[i].name<<"\t\t\t"<<places[i].distance<<"\t\t\t\t";
+            for(int j=0; j<8; j++){
+            cout<<places[i].discription[j];
+            }
+            if(places[i].discription.length()>8)
+            cout<<"...";
+            cout<<"\t\t"<<places[i].availability<<endl;
+        }
+    }
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    user_option();
+}
+
+
+
