@@ -24,7 +24,7 @@ struct Place
 {
     int place_id;       // is equal to the index of the array
     string name;
-    string distance;    //distance from Addis Ababa Review
+    float distance;    //distance from Addis Ababa Review
     string discription; //brief description of the place
     int rating[nums];
     int availability;
@@ -294,6 +294,41 @@ void available_place()    // displays all the registered places with detail in t
     system("cls");
     user_option();
 }
+void add_user()
+{
+    int i;
+    for (i = 0; users[i].user_id != 0;i++);
+    cout << "\nEnter your personal information: \n";
+    cout << "\nEnter name: ";
+    getline(cin >> ws, users[i].name);
+    cout << "\nEnter user name: ";
+    getline(cin >> ws, users[i].user_name);
+    cout << "\nEnter password: ";
+    getline (cin >> ws, users[i].password);
+    cout<< "\nEnter phone number: ";
+    cin >> users[i].phone_num;
+    users[i].user_id = i + 1;
+
+    cout << "\n-------------------You are now registered-------------------------\n\n";
+    system("cls");
+    home();
+}
+
+void display_user()
+{
+    int number_of_user;
+    for (number_of_user = 0; users[number_of_user].user_id != 0;number_of_user++);
+    number_of_user--;
+    string n;
+    cout << "Name" << "\t\t|\t" << "User name" << "\t" << "Phone number" << endl;
+    cout << "-------------------------------------------------------------------------"<< endl;
+    for(int i = 0; i <= number_of_user; i++){
+            cout << users[i].name << "\t\t|\t" << users[i].user_name << "\t" << users[i].phone_num << endl;
+    }
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    user_option();
 
 
 
