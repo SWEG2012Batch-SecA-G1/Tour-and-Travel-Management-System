@@ -359,6 +359,114 @@ void display_user()
     getline(cin >> ws, n);
     system("cls");
     user_option();
+}
+
+void tour_reservation()
+{
+    int i, pack, index, place_index;
+    for (i = 0; reserved[i].user_id != 0;i++);
+    reserved[i].user_id = loged_in;
+    display_place(0);
+    E:cout << "\n\nWhere do you want to go? " << endl;
+    cout << "Enter the place id: ";
+    cin >> place_index;
+    place_index--;
+    places[place_index].reg += 1;
+    system("cls");
+    if(places[place_index].availability < 1){
+        int ch;
+        cout << "Sorry we have no seats available please choose another place" << endl;
+        G:cout << "if you want to return back to home press 1, else if you want to choose another place press 2: ";
+        cin >> ch;
+        switch(ch)
+        {
+        case 1:
+            user_option();
+            break;
+        case 2:
+            goto E;
+            break;
+        default:
+            cout << "Invalid input please try again" << endl;
+            goto G;
+        }
+    }
+    reserved[i].place_id = places[place_index].place_id;
+    cout << " you chose " << places[place_index].name <<endl;
+    reserved[i].cost = 2 * places[place_index].distance;
+    places[place_index].availability--;
+
+    cout << "Packages" << endl;
+    B:cout << "1. One Person only\n" << endl;
+    cout <<"2. Couples package (two persons) \n3. Family package (three and above) \n4. Event or Organizational package (10 and above)" << endl;
+    cout <<"Choose package: ";
+    cin >> pack;
+    if (!(pack >= 1 && pack <= 4))
+    {
+        cout << "Invalid input please try again";
+        goto B;
+    }
+    reserved[i].package = pack;
+    index = reserved[i].package - 1;
+    if (index != 0)
+    {
+        if (index = 2)
+            reserved[i].num_people = 2;
+        else
+        {
+            system("cls");
+            cout << "how many people are with you: ";
+            cin >> reserved[i].num_people;
+        }
+    }
+    reserved[i].cost = (rates[2] * places[place_index].distance) * reserved[i].num_people;
+    reserved[i].discount = (reserved[i].cost * (rates[1] * users[loged_in - 1].point)) +        //discount by the point of the user
+                            (reserved[i].cost * package_discounts[reserved[i].package] )+       //discount by the package they chose
+                            (reserved[i].cost * (reserved[i].num_people * rates[0]));           //discount by the the number of people they are bringing
+
+    reserved[i].final_cost = reserved[i].cost - reserved[i].discount;
+    system("cls");
+    s:cout << "choose a day in Ethiopian calendar (dd mm yy) use this format: ";
+    cin >> reserved[i].date.dd>> reserved[i].date.mm >> reserved[i].date.yy;
+    if (!(reserved[i].date.mm > 0 && reserved[i].date.mm < 14))
+    {
+        if (reserved[i].date.mm == 13 && !(reserved[i].date.dd > 0 && reserved[i].date.dd < 6))
+        {
+            cout << "\n!!! ERROR: puagme have only five days\n";
+            goto s;
+        }
+        if (!(reserved[i].date.dd > 0 && reserved[i].date.dd < 31))
+        {
+            if (!(reserved[i].date.yy < 2012 && reserved[i].date.yy > 2015))
+            {
+                cout << "\n!!! ERROR: year out of range\n";
+                goto s;
+            }
+            cout << "\n!!! ERROR: month is out of range\n";
+            goto s;
+        }
+        cout << "\n!!! ERROR: out of bound month\n";
+        goto s;
+    }
+    system("cls");
+
+    A:cout << "Time" << endl;
+    cout << "1. for 6 am (12:00 local time) \n2. for 9 am (3:00 local time)" ;
+    cout << "\n3. for 12pm (6:00 local time) \n" << endl;
+    cout << "Choose at what time you want to go: ";
+    cin >> reserved[i].times;
+    users[loged_in - 1].point += (places[place_index].distance * rates[3]);
+    if (!(reserved[i].times < 4 && reserved[i].times > 0))
+    {
+        cout << "Invalid input please try again!";
+        goto A;
+    }
+    reserved[i].times--;
+    cout << "-------------------------- You have successfully reserved your seat----------------------------";
+    Sleep(700);
+    system("cls");
+    user_option();
+}
 
 
 
