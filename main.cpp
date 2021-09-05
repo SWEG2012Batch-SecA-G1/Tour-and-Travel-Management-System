@@ -109,13 +109,16 @@ int home()
             login = login_user();
             if (login == 1)
                 user_option();
-            cout << "closing the app";
+            else
+                home_option();
             break;
         case 3:
             system("cls");
             login = login_admin();
             if (login == 1)
                 admin_option();
+            else
+                home_option();
             break;
         case 4:
             return 0;
