@@ -2,13 +2,19 @@
 #include<string.h>
 #include<conio.h>
 #include<Windows.h>
+#include <iomanip>
 using namespace std;
 
-const int nums = 100;                               // Max number for the arrays
-string admin[2] = {"admin", "admin"};               // admin authentication username and password
-int loged_in = 0;                                   // the id of the user who logged in
-float rates[4] = {0.001, 0.1, 2};                   // discount rates per points, number of people, and cost per distance,
-int package_discounts[4] = {0,0.01,0.05,0.1};       // discount for single, couple, family and event packages
+const int nums = 100;                                     // Max number for the arrays
+string admin[2] = {"admin", "admin"};                     // admin authentication username and password
+int loged_in = 0;                                         // the id of the user who logged in
+float rates[4] = {0.0001, 0.01, 5, 0.1};                  // discount rates per points, number of people, and cost per distance, point per distance
+float package_discounts[4] = {0,0.01,0.05,0.1};           // discount for single, couple, family and event packages
+string package_names[4] = {"for Single", "for Couple",
+                           "for Family", "for Event"};    // Package names;
+string times[3] = {"12:00", "3:00", "6:00"};
+int monthly[12] = {0};
+string months[12] = {"sep", "oct", "nov", "dec", "jan", "feb", "march", "april","may","jun","jul","aug"};
 
 struct User
 {
@@ -16,19 +22,42 @@ struct User
     string name;
     string user_name;   // must be unique
     string password;
-    int phone_num;
-    int point;
-}users[100];
+    char phone_num[10];
+    int point=10;
+}users[nums];
+
+struct Date
+{
+    int dd,mm,yy;
+};
 
 struct Place
 {
     int place_id;       // is equal to the index of the array
     string name;
-    float distance;    //distance from Addis Ababa Review
-    string discription; //brief description of the place
-    int rating[nums];
+    int distance;       //distance from Addis Ababa Review
+    string discription; //location description
+    float rating = 0;
     int availability;
+    int reg = 0;
 }places[nums];
+
+struct Register
+{
+    int book_id;
+    int user_id;
+    int place_id;
+    int package;            // index of the array package_name + 1
+    int num_people = 1;     // number of people to travel
+    Date date;
+    int times;               // index of the time array times_avail + 1
+    float cost;
+    float discount;
+    float final_cost;
+
+}reserved[nums];
+
+
 
 void add_user();                        // receives input from user and add the registered user to the array
 void display_user();                    // displays all the registered users with detail in tabular format
@@ -38,13 +67,19 @@ void rate_place();                      // allows the user to rate a place
 void available_place();                 // displays all the tIhe available places that have an availability number > 0
 int login_user();                       // asks the user for login authentication and if it is correct match returns 1 other wise -1
 int login_admin();                      // asks for admin authentication and if it is correct returns 1 otherwise -1
-int home();                             // home page options
+int home();                             // home options
 void user_option();                     // options for user after login
 void admin_option();                    // options for admin after login
-void tour_reservation(Register [nums]); // reserves a tour for the logged in user
-void tour_history();                    // filters history of tour registration for the logged in user used the variable loged_in to gets the id of the loged_in user
+void tour_reservation();                // reserves a tour for the logged in user
+int tour_history(int);                  // filters history of tour registration for the logged in user
 void profile_of_user();                 // displays a profile of the logged in user
 void refill_availability();             // with an option to refill all the places or a given place
+void place_filter();                    // gives report of places registration
+void total_sales();                     // gives detail of total sales until now
+void month_users();                     // gives report of total registration per month
+void filter_option();                   // displays an option of reports
+void admin_auth();                      // change the password and username of the admin
+
 
 int main()
 {
@@ -81,6 +116,7 @@ int home()
             login = login_admin();
             if (login == 1)
                 admin_option();
+            break;
         case 4:
             return 0;
             break;
@@ -96,11 +132,15 @@ void user_option()
     cout << "1. Broucher\n";
     cout << "2. Open spot for each place\n";
     cout << "3. rate place\n";
-    cout << "4. back to home\n";
+    cout << "4. register\n";
+    cout << "5. history\n";
+    cout << "6. profile\n";
+    cout << "7. back to home\n";
     cout << "choose: ";
     cin >> choose;
     switch(choose)
     {
+        int a;
         case 1:
             system("cls");
             display_place(1);
@@ -115,6 +155,18 @@ void user_option()
             break;
         case 4:
             system("cls");
+            tour_reservation();
+            break;
+        case 5:
+            system("cls");
+            a = tour_history(0);
+            break;
+        case 6:
+            system("cls");
+            profile_of_user();
+            break;
+        case 7:
+            system("cls");
             home();
             loged_in = 0;
             break;
@@ -124,7 +176,6 @@ void user_option()
 
 }
 
-
 void admin_option()
 {
     int s=4;
@@ -132,7 +183,9 @@ void admin_option()
     cout << "1. List all users info\n";
     cout << "2. List all places\n";
     cout << "3. Add place\n";
-    cout << "4. home\n";
+    cout << "4. Report\n";
+    cout << "5. Change admin authentication\n";
+    cout << "6. home\n";
     cout << "choose: ";
     cin >> choose;
     switch(choose)
@@ -150,6 +203,14 @@ void admin_option()
             add_place();
             break;
         case 4:
+            system("cls");
+            filter_option();
+            break;
+        case 5:
+            system("cls");
+            admin_auth();
+            break;
+        case 6:
             system("cls");
             home();
             loged_in = 0;
