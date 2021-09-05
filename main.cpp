@@ -303,16 +303,28 @@ void display_place(int n)    // displays all the registered places with detail i
     string ns;
     for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
     number_of_place--;
-    cout << left << setw(5) << "ID" << left<< setw(30) << "Location Name" << left << setw(35) << "Distance From Addis Ababa" << left << setw(35) << "Location Description" << left << setw(25) << "Availability" << left << setw(15) << "Rating" << endl;
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    cout << "| "
+         << left << setw(7) << "ID" << "| "
+         << left << setw(18)<< "Location Name" << "| "
+         << left << setw(22)<< "Distance from Addis" << "| "
+         << left << setw(23)<< "Location Description" << "| "
+         << left << setw(17) << "Availability" << "| "
+         << left << setw(12) << "Ratings" << " | " << endl;
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
     for (int i=0; i<=number_of_place; i++)
     {
-        cout<<left << setw(5) << places[i].place_id << left<< setw(40)<<places[i].name<<left<< setw(20)<<places[i].distance;
-        cout<<left << setw(22) << places[i].discription;
+        cout<< "| "
+            <<left << setw(7)  << places[i].place_id << "| "
+            <<left << setw(18) <<places[i].name << "| "
+            <<left << setw(22) <<places[i].distance << "| ";
+        cout<<left << setw(23) << places[i].discription << "| ";
 //        if(places[i].discription.length()>8)
 //            cout<<"...";
-        cout<<left<< setw(8)<<places[i].availability  << left << setw(15) << places[i].rating <<endl;
+        cout<<left<< setw(17)<< places[i].availability << "| "
+            << left << setw(12)  << places[i].rating  << " | " <<endl;
     }
-
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
     if (n == 0)
         return;
     else if (n == 1)
@@ -412,30 +424,42 @@ int login_admin()
     user_option();
 }
 
-void available_place()    // displays all the registered places with detail in tabular format
+oid available_place()    // displays all the registered places with detail in tabular format
 {
-    string n;
     int number_of_place;
+    string n;
     for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
     number_of_place--;
-    cout<<"Location Name \t Distance From Addis Ababa \t Location description \tAvailability \t Rating \n";
-    for (int i=0; i<number_of_place; i++){
+    cout << "\t\t\t\t\t\t Available places\n";
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    cout << "| "
+         << left << setw(7) << "ID" << "| "
+         << left << setw(18)<< "Location Name" << "| "
+         << left << setw(22)<< "Distance from Addis" << "| "
+         << left << setw(23)<< "Location Description" << "| "
+         << left << setw(17) << "Availability" << "| "
+         << left << setw(12) << "Ratings" << " | " << endl;
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    for (int i=0; i<=number_of_place; i++)
+    {
         if (places[i].availability > 0)
         {
-            cout<<places[i].name<<"\t\t\t"<<places[i].distance<<"\t\t\t\t";
-            for(int j=0; j<8; j++){
-            cout<<places[i].discription[j];
-            }
-            if(places[i].discription.length()>8)
-            cout<<"...";
-            cout<<"\t\t"<<places[i].availability<<endl;
+            cout<< "| "
+                <<left << setw(7)  << places[i].place_id << "| "
+                <<left << setw(18) <<places[i].name << "| "
+                <<left << setw(22) <<places[i].distance << "| ";
+            cout<<left << setw(23) << places[i].discription << "| ";
+            cout<<left<< setw(17)<< places[i].availability << "| "
+                << left << setw(12)  << places[i].rating  << " | " <<endl;
         }
     }
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
     cout << "press any key to go back";
     getline(cin >> ws, n);
     system("cls");
     user_option();
 }
+
 void add_user()
 {
     int i;
@@ -583,12 +607,26 @@ void tour_reservation()
 void profile_of_user()
 {
     string n;
+    for (int i = 0; i < 85; i++)
+    {   cout << "-";
+    }
     cout<<endl;
-    cout << left<< setw(40) << "Name" << left << setw(20) << "Username" << left << setw(18) << "Phone Number" << left << setw(15) << "Point" << endl;
-    cout << "-------------------------------------------------------------------------------------------------------------"<< endl;
-    cout << left<< setw(40) << users[loged_in-1].name << left << setw(20) << users[loged_in-1].user_name << left << setw(18)
-    << users[loged_in-1].phone_num << left << setw(15) << users[loged_in-1].point << endl;
-    cout << "press any key to go back";
+    cout << "|" << left << setw(25) << "Name" << "|"
+         << left << setw(28) << "Username" << "|"
+         << left << setw(17) << "Phone Number" << "|"
+         << left << setw(10) << "Point" << "|" << endl;
+    for (int i = 0; i < 85; i++)
+    {   cout << "-";
+    }
+    cout << endl;
+    cout << "|" << left << setw(25) << users[loged_in-1].name << "|"
+         << left << setw(28) << users[loged_in-1].user_name << "|"
+         << left << setw(17) << users[loged_in-1].phone_num << "|"
+         << left << setw(10) << users[loged_in-1].point << "|" << endl;
+    for (int i = 0; i < 85; i++)
+    {   cout << "-";
+    }
+    cout << "\npress any key to go back";
     getline(cin >> ws, n);
     system("cls");
     user_option();
@@ -598,9 +636,22 @@ int tour_history(int d=0)
 {
     int reserves, counts = 0;
     string n;
-    cout <<left << setw(18) << "place" << left<< setw(10) << "Package" << left << setw(20) << "Number of People" << left << setw(8) << "Date" << left
-    << setw(1) << "Time" << left << setw(10) << "Cost" << left << setw(10) << "Discount" << left << setw(10) << "Final Cost\n";
-
+    for (int i = 0; i < 117; i++)
+    {   cout << "-";
+    }
+    cout << endl;
+    cout << "|" << left << setw(15) << "Place" << "|"
+         << left << setw(12) << "Package" << "|"
+         << left << setw(21) << "Number of People" << "|"
+         << left << setw(13) << "Date" << "|"
+         << left << setw(14) << "Time" << "|"
+         << left << setw(9) << "Cost"<< "|"
+         << left << setw(13) << "Discount" << "|"
+         << left << setw(11) << "Final Cost" << "|" << endl;
+    for (int i = 0; i < 117; i++)
+    {   cout << "-";
+    }
+    cout << endl;
     for (reserves = 0; reserved[reserves].user_id != 0; reserves++);
     reserves--;
 
@@ -609,12 +660,21 @@ int tour_history(int d=0)
         {
             counts++;
             int place_id = reserved[i].place_id - 1;
-            cout << left << setw(18) << places[place_id].name;
-            cout << left<< setw(10) << package_names[reserved[i].package] << left << setw(20) << reserved[i].num_people
-            << reserved[i].date.mm<<" "<< reserved[i].date.dd<<" "<< reserved[i].date.yy<<left
-            << setw(5) << times[reserved[i].times] << left << setw(6) << reserved[i].cost <<left<< setw(6) << reserved[i].discount <<left<< setw(6) << reserved[i].final_cost << endl;
+            cout << "|" << left << setw(15) << places[place_id].name << "|"
+                 << left<< setw(12) << package_names[reserved[i].package] << "|"
+                 << left << setw(21) << reserved[i].num_people << "|"
+                 << left << setw (2) << reserved[i].date.mm<<"/"<< setw(2) << reserved[i].date.dd<<"/"<< setw(7) << reserved[i].date.yy << "|"
+                 << left << setw(14) << times[reserved[i].times] << "|"
+                 << left << setw(9) << reserved[i].cost << "|"
+                 << left << setw(13) << reserved[i].discount << "|"
+                 << left << setw(11) << reserved[i].final_cost << "|" << endl;
         }
     }
+    for (int i = 0; i < 117; i++)
+    {
+        cout << "-";
+    }
+    cout << endl;
     if (d == 1)
         return counts;
     else
@@ -626,5 +686,4 @@ int tour_history(int d=0)
         return counts;
     }
 }
-
 
