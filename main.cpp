@@ -110,7 +110,10 @@ int home()
             if (login == 1)
                 user_option();
             else
-                home_option();
+            {
+                system("cls");
+                home();
+            }
             break;
         case 3:
             system("cls");
@@ -118,7 +121,10 @@ int home()
             if (login == 1)
                 admin_option();
             else
-                home_option();
+            {
+                system("cls");
+                home();
+            }
             break;
         case 4:
             return 0;
