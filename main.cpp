@@ -162,31 +162,61 @@ void admin_option()
 
 void add_place() // receives input and add the registered place to the array
 {
-    for (int i=0; i<nums; i++){
+    int i, num_places, origin;
+    for (i = 0; places[i].place_id != 0;i++);
+    origin = i;
+    cout << "how many places do you want to add: ";
+    cin >> num_places;
+    while (i < origin + num_places)
+    {
         places[i].place_id=i+1;
-        cout<<"Location Name: ";
+        F:cout<<"Location Name: ";
         getline(cin>>ws,places[i].name);
+        for (int j = 0; j < nums; j++)
+        {
+        if (places[i].name == places[i - 1].name)
+        {
+            cout << "The place is already registered." << endl;
+            goto F;
+        }
+        }
         cout<<"Distance From Addis Ababa: ";
         cin>>places[i].distance;
         cout<<"Location description: ";
         getline(cin>>ws, places[i].discription);
         cout<<"availability: ";
         cin>>places[i].availability;
+        i++;
     }
+    cout << "\n-------------------place have been successfully added-------------------------\n\n";
+    system("cls");
+    admin_option();
 }
 
-void display_place()    // displays all the registered places with detail in tabular format
+void display_user()
 {
-        cout<<"Location Name \t Distance From Addis Ababa \t Location description \tAvailability \t Rating \n";
-    for (int i=0; i<nums; i++){
-        cout<<places[i].name<<"\t\t\t"<<places[i].distance<<"\t\t\t\t";
-        for(int j=0; j<8; j++){
-        cout<<places[i].discription[j];
-        }
-        if(places[i].discription.length()>8)
-        cout<<"...";
-        cout<<"\t\t"<<places[i].availability<<endl;
+    int number_of_user;
+    for (number_of_user = 0; users[number_of_user].user_id != 0;number_of_user++);
+    number_of_user--;
+    string n;
+    cout << " ----------------------------------------------------------------------- "<< endl;
+    cout << "| "
+         << left << setw(20) << "Name" << "| "
+         << left << setw(20) << "User name" << "| "
+         << left << setw(15) << "Phone number" << "| " << endl;
+    cout << " ----------------------------------------------------------------------- "<< endl;
+    for(int i = 0; i <= number_of_user; i++){
+            cout << "| "
+                 << left << setw(20) << users[i].name << "| "
+                 << left << setw(20) << users[i].user_name << "| "
+                 << left << setw(15) << users[i].phone_num << "| " << endl;
     }
+    cout << " ----------------------------------------------------------------------- "<< endl;
+
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    admin_option();
 }
 
 // asks the user for login authentication and if it is correct match returns 1 other wise -1
