@@ -221,6 +221,39 @@ void admin_option()
 
 }
 
+void filter_option()
+{
+    int login = 0;
+    int choose;
+    cout << "1. Each month egistration\n";
+    cout << "2. Each place registration\n";
+    cout << "3. Total sales\n";
+    cout << "4. admin\n";
+    cout << "choose: ";
+    cin >> choose;
+    switch(choose)
+    {
+        case 1:
+            system("cls");
+            month_users();
+            break;
+        case 2:
+            system("cls");
+            place_filter();
+            cout << "closing the app";
+            break;
+        case 3:
+            system("cls");
+            total_sales();
+            break;
+        case 4:
+            system("cls");
+            admin_option();
+            break;
+        default:
+            cout << "ERROR: input is out of bound";
+    }
+}
 void add_place() // receives input and add the registered place to the array
 {
     int i, num_places, origin;
