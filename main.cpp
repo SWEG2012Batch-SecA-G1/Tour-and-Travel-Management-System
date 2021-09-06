@@ -749,4 +749,61 @@ int tour_history(int d=0)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void place_filter()
+{
+    string n;
+    cout << endl << "Place Name" << "\t\t\t" <<  "reserved seats" << endl;
+    cout << "------------------------------------------------------------------------"<< endl;
+    int number_of_place;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
+    number_of_place--;
+    for (int i=0; i<=number_of_place; i++)
+    {
+        cout<<places[i].name<<"\t\t\t"<<places[i].reg<<endl;
+    }
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    filter_option();
+}
+
+void month_users(){
+    string n;
+    for(int i=0; i<100; i++){
+            int index;
+            index = reserved[i].date.mm;
+            if (index != 0)
+                monthly[index - 1]++;
+    }
+    cout << endl << "month" << "\t\t\t" << "total travels" <<endl;
+    cout << "------------------------------------------------------------------"<< endl;
+    for(int i=0; i<12; i++){
+        cout << months[i] << "\t\t\t" << monthly[i] << endl;
+    }
+        cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    filter_option();
+}
+
+void total_sales()
+{
+    int reserves;
+    for (reserves = 0; reserved[reserves].user_id != 0; reserves++);
+    string n;
+    float cost = 0;
+    cout << endl << "month" << "\t\t\t" << "total travels" <<endl;
+    cout << "------------------------------------------------------------------"<< endl;
+
+    for(int i=0; i<100; i++){
+        cost += reserved[i].final_cost;
+    }
+    cout << " Total number of sales: " << reserves;
+    cout << "\n The income from sales: " << cost << endl;
+    cout << " The profit is: " << cost * 0.2 << endl << endl << endl;
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    filter_option();
+}
 
