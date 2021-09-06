@@ -10,14 +10,12 @@ string admin[2] = {"admin", "admin"};                     // admin authenticatio
 int loged_in = 0;                                         // the id of the user who logged in
 float rates[4] = {0.0001, 0.01, 5, 0.1};                  // discount rates per points, number of people, and cost per distance, point per distance
 float package_discounts[4] = {0,0.01,0.05,0.1};           // discount for single, couple, family and event packages
+int ranked[100] = {0};
 string package_names[4] = {"for Single", "for Couple",
                            "for Family", "for Event"};    // Package names;
 string times[3] = {"12:00", "3:00", "6:00"};
 int monthly[12] = {0};
 string months[12] = {"sep", "oct", "nov", "dec", "jan", "feb", "march", "april","may","jun","jul","aug"};
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct User
 {
@@ -33,9 +31,6 @@ struct Date
 {
     int dd,mm,yy;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Place
 {
@@ -47,9 +42,6 @@ struct Place
     int availability;
     int reg = 0;
 }places[nums];
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Register
 {
@@ -65,9 +57,6 @@ struct Register
     float final_cost;
 
 }reserved[nums];
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -91,9 +80,10 @@ void total_sales();                     // gives detail of total sales until now
 void month_users();                     // gives report of total registration per month
 void filter_option();                   // displays an option of reports
 void admin_auth();                      // change the password and username of the admin
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void rank_place();                      // arranges places according to their rankin
+void display_ranked();                  // displays ranked places based on rating
+
+////////////////////////////////////////////////////
 
 
 int main()
@@ -160,12 +150,13 @@ void user_option()
 {
     int choose;
     cout << "1. Broucher\n";
-    cout << "2. Open spot for each place\n";
-    cout << "3. rate place\n";
-    cout << "4. register\n";
-    cout << "5. history\n";
-    cout << "6. profile\n";
-    cout << "7. back to home\n";
+    cout << "2. Ranked by rating\n";
+    cout << "3. Open spot for each place\n";
+    cout << "4. rate place\n";
+    cout << "5. register\n";
+    cout << "6. history\n";
+    cout << "7. profile\n";
+    cout << "8. back to home\n";
     cout << "choose: ";
     cin >> choose;
     switch(choose)
@@ -177,25 +168,29 @@ void user_option()
             break;
         case 2:
             system("cls");
-            available_place();
+            display_ranked();
             break;
         case 3:
             system("cls");
-            rate_place();
+            available_place();
             break;
         case 4:
             system("cls");
-            tour_reservation();
+            rate_place();
             break;
         case 5:
             system("cls");
-            a = tour_history(0);
+            tour_reservation();
             break;
         case 6:
             system("cls");
-            profile_of_user();
+            a = tour_history(0);
             break;
         case 7:
+            system("cls");
+            profile_of_user();
+            break;
+        case 8:
             system("cls");
             home();
             loged_in = 0;
@@ -205,6 +200,7 @@ void user_option()
     }
 
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
