@@ -819,7 +819,7 @@ void admin_auth()
     cin >> admin[0];
     cout << "Set Admin password: ";
     cin >> admin[1];
-    cout << "------------------------
+    cout << "------------------------"
          << "YOUR PASSWORD AND USERNAME"
          << "HAVE BEEN SUCCESSFULLY SET"
          << " -------------------------";
