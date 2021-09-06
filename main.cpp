@@ -827,3 +827,44 @@ void admin_auth()
     system("cls");
     admin_option();
 }
+
+
+void rank_place()
+{
+    int temp, temp2;
+    bool flag = true;
+    int number_of_place;
+    string ns;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++){
+        ranked[number_of_place] = 0;
+    }
+    number_of_place--;
+    for (int i=0; i<=number_of_place; i++)
+    {
+        for (int j=0; j <= number_of_place; j++)
+        {
+            if (!flag)
+            {
+                if (temp == 101)
+                    continue;
+                temp2 = ranked[j];
+                ranked[j] = temp;
+                temp = temp2;
+                continue;
+            }
+            if (places[i].rating <= places[ranked[j]].rating && flag == true)
+            {
+                flag = false;
+                if (ranked[j] == i)
+                {
+                    temp = 101;
+                    continue;
+                }
+                temp = ranked[j];
+                ranked[j] = i;
+            }
+        }
+        flag = true;
+    }
+
+}
