@@ -380,7 +380,7 @@ void display_place(int n)    // displays all the registered places with detail i
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // asks the user for login authentication and if it is correct match returns 1 other wise -1
-int login_user(User *users, const int  nums)
+int login_user()
 {
     int loginAttempt = 0;
     string userName, userPassword;
@@ -391,10 +391,12 @@ int login_user(User *users, const int  nums)
         cout << "Please enter your user password: ";//user enters password.
         cin >> userPassword;
 
-        for (int i; i < nums; i++)//for loop authenticates user names and passwords.
+        for (int i = 0; i < nums; i++)//for loop authenticates user names and passwords.
         {
             if (userName == users[i].user_name && userPassword == users[i].password)
             {
+                system("cls");
+                loged_in = users[i].user_id;
                 return 1;
                 break;
             }
@@ -409,7 +411,9 @@ int login_user(User *users, const int  nums)
                 break;
         }
     }
+    return 0;
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -421,13 +425,14 @@ int login_admin()
     string adminName, adminPassword;
     while (loginAttempt < 3)
     {
-        cout << "Please enter Admin name: "; //admin enters user name.
+        cout << "Please enter Admin username (default = admin): "; //admin enters user name.
         cin >> adminName;
-        cout << "Please enter Admin password: ";//admin enters password.
+        cout << "Please enter Admin password (default = admin): ";//admin enters password.
         cin >> adminPassword;
 
         if (adminName == admin[0] && adminPassword == admin[1])
         {
+                system("cls");
                 return 1;
                 break;
         }
@@ -441,6 +446,7 @@ int login_admin()
                 break;
         }
     }
+    return -1;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
