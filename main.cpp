@@ -813,3 +813,17 @@ void total_sales()
     filter_option();
 }
 
+void admin_auth()
+{
+    cout << "Set Admin username: ";
+    cin >> admin[0];
+    cout << "Set Admin password: ";
+    cin >> admin[1];
+    cout << "------------------------
+         << "YOUR PASSWORD AND USERNAME"
+         << "HAVE BEEN SUCCESSFULLY SET"
+         << " -------------------------";
+    Sleep(1000);
+    system("cls");
+    admin_option();
+}
