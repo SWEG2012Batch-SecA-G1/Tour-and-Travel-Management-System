@@ -1260,3 +1260,88 @@ void search_place()
     cout << " ---------------------------------------------------------------------------------------------------------------\n";
     user_option();
 }
+
+void edit_place()
+{
+    int i, num_places, origin;
+    for (i = 0; places[i].place_id != 0;i++);
+
+    origin = i;
+    cout << "Enter the Id of place you want to edit: ";
+    cin >> num_places;
+        num_places--;
+        F:cout<<"Location Name: ";
+        getline(cin>>ws,places[num_places].name);
+        for (int j = 0; j < nums; j++)
+        {
+            if (places[i].name == places[i - 1].name)
+            {
+                cout << "The place is already registered." << endl;
+                goto F;
+            }
+        }
+        cout<<"Distance From Addis Ababa: ";
+        cin>>places[num_places].distance;
+        cout<<"Location description: ";
+        getline(cin>>ws, places[num_places].discription);
+        cout<<"availability: ";
+        cin>>places[num_places].availability;
+        i++;
+    save_place();
+    read_place();
+    cout << "\n-------------------PLACE HAVE BEEN EDITED SUCCESSFULLY --------------------------------------------\n\n";
+    system("cls");
+    admin_option();
+}
+//void delete_user()
+//{
+//
+//}
+
+int all_tour()
+{
+    int reserves;
+    string n;
+    for (int i = 0; i < 117; i++)
+    {   cout << "-";
+    }
+    cout << endl;
+    cout << "|" << left << setw(7) << "Place_Id" << "|"
+         << left << setw(15) << "Place" << "|"
+         << left << setw(12) << "Package" << "|"
+         << left << setw(21) << "Number of People" << "|"
+         << left << setw(13) << "Date" << "|"
+         << left << setw(14) << "Time" << "|"
+         << left << setw(9) << "Cost"<< "|"
+         << left << setw(13) << "Discount" << "|"
+         << left << setw(11) << "Final Cost" << "|" << endl;
+    for (int i = 0; i < 117; i++)
+    {   cout << "-";
+    }
+    cout << endl;
+    for (reserves = 0; reserved[reserves].user_id != 0; reserves++);
+    reserves--;
+
+    for(int i=0; i<=reserves; i++){
+            int place_id = reserved[i].place_id - 1;
+            cout << "|" << left << setw(7) << reserved[i].place_id << "|"
+                 << left << setw(15) << places[place_id].name << "|"
+                 << left<< setw(12) << package_names[reserved[i].package] << "|"
+                 << left << setw(21) << reserved[i].num_people << "|"
+                 << left << setw (2) << reserved[i].date.mm<<"/"<< setw(2) << reserved[i].date.dd<<"/"<< setw(7) << reserved[i].date.yy << "|"
+                 << left << setw(14) << times[reserved[i].times] << "|"
+                 << left << setw(9) << reserved[i].cost << "|"
+                 << left << setw(13) << reserved[i].discount << "|"
+                 << left << setw(11) << reserved[i].final_cost << "|" << endl;
+    }
+    for (int i = 0; i < 117; i++)
+    {
+        cout << "-";
+    }
+    cout << "press any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    admin_option();
+}
+
+
