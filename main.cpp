@@ -1084,3 +1084,179 @@ void save_user()
     //closing a file
     save_user.close();
 }
+
+
+void read_reg()
+{
+    // opening a file
+    ifstream read_reg("reservation.txt");
+    if (!read_reg.is_open())
+    {
+        return;
+    }
+    int i = 0;
+
+    while(!read_reg.eof()){
+
+        read_reg >> reserved[i].book_id >> reserved[i].user_id >> reserved[i].place_id >> reserved[i].package >> reserved[i].num_people
+        >>reserved[i].date.dd >> reserved[i].date.mm >> reserved[i].date.yy >> reserved[i].times >> reserved[i].cost >> reserved[i].discount >> reserved[i].final_cost;
+
+        i++;
+    }
+    //closing a file
+    read_reg.close();
+
+}
+
+void delete_reg()
+{
+    int id, line;
+    cout<<"Delete by ID: ";
+    cin>>id;
+    ifstream iread_reg("reservation.txt");
+    if (!iread_reg.is_open())
+    {
+        return;
+    }
+    ofstream oread_reg("n_reservation.txt");
+    int i = 0;
+
+    while(!iread_reg.eof()){
+        iread_reg >> reserved[i].book_id >> reserved[i].user_id >> reserved[i].place_id >> reserved[i].package >> reserved[i].num_people
+        >>reserved[i].date.dd >> reserved[i].date.mm >> reserved[i].date.yy >> reserved[i].times >> reserved[i].cost >> reserved[i].discount >> reserved[i].final_cost;
+
+        if(reserved[i].book_id != id){
+        oread_reg << reserved[i].book_id << " " << reserved[i].user_id << " " << reserved[i].place_id << " " << reserved[i].package << " " << reserved[i].num_people << " "
+        << reserved[i].date.dd <<" "<< reserved[i].date.mm <<" "<< reserved[i].date.yy << " " << reserved[i].times << " " << reserved[i].cost << " " << reserved[i].discount << " " << reserved[i].final_cost << "\n";
+        }
+        i++;
+    }
+    //closing a file
+    iread_reg.close();
+    oread_reg.close();
+
+remove("reservation.txt");
+
+rename("n_reservation.txt", "reservation.txt");
+    string n;
+    cout << " -------------------------  YOUR REGISTRATION HAVE BEEN SUCCESSFULLY DELETED ---------------------\n";
+    cout << "\n\npress any key to go back: ";
+    getline(cin >> ws, n);
+    system("cls");
+    user_option();
+}
+
+
+
+void search_user()
+{
+    int user_id, i, j;
+    for (i = 0; users[i].user_id != 0;i++);
+    cout << "Enter the User Id you want to search: ";
+    cin >> user_id;
+    for (int j = 0; j < i; j++)
+    {
+        if (users[j].user_id == user_id)
+        {
+            cout << " ------------------------------------------------------------- "<< endl;
+            cout << "| "
+                    << left << setw(20) << "Name" << "| "
+                    << left << setw(20) << "User name" << "| "
+                    << left << setw(15) << "Phone number" << "| " << endl;
+            cout << " ------------------------------------------------------------- "<< endl;
+            cout << "| "
+                 << left << setw(20) << users[j].name << "| "
+                 << left << setw(20) << users[j].user_name << "| "
+                 << left << setw(15) << users[j].phone_num << "| " << endl;
+            cout << " ------------------------------------------------------------- "<< endl;
+            admin_option();
+        }
+    }
+    cout << "user was not found!";
+    Sleep(500);
+    admin_option();
+}
+
+void edit_user()
+{
+    int index, i, j;
+    for (i = 0; users[i].user_id != 0;i++);
+    for (int j = 0; j < i; j++)
+    {
+        if (users[j].user_id == loged_in)
+        {
+            index = j;
+            break;
+        }
+    }
+
+    cout << "\nEdit your personal information: \n";
+    cout << "\nEdit name: ";
+    getline(cin >> ws, users[index].name);
+    c:cout << "\nEdit user name: ";
+    string userName;
+    getline(cin >> ws, userName);
+    for (int f = 0; f < nums; f++)
+    {
+        if (users[f].user_name == userName)
+        {
+            cout<< "This username is taken please choose another one? ";
+            goto c;
+        }
+    }
+    users[index].user_name = userName;
+    cout << "\nchange password: ";
+    getline (cin >> ws, users[index].password);
+    X: cout<< "\nedit phone number: ";
+    cin >> users[index].phone_num;
+    for (int j = 0; j < 10; j++)
+    {
+        if(!(isdigit(users[index].phone_num[j])) || users[index].phone_num[10])
+        {
+            cout << "Invalid phone number please try again!" << endl;
+            goto X;
+        }
+    }
+    cout << "-------------------------------- YOU HAVE SUCCESSFULLY EDITED YOUR PROFILE -------------------------------------"<<endl;
+    save_user();
+    read_user();
+    Sleep(500);
+    user_option();
+}
+
+void search_place()
+{
+    int number_of_place;
+    string place_id;
+    string ns;
+    cout << "Enter the name of the place you want to search: ";
+    getline(cin>>ws, place_id);
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
+    number_of_place--;
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    cout << "| "
+         << left << setw(7) << "ID" << "| "
+         << left << setw(18)<< "Location Name" << "| "
+         << left << setw(22)<< "Distance from Addis" << "| "
+         << left << setw(23)<< "Location Description" << "| "
+         << left << setw(17) << "Availability" << "| "
+         << left << setw(12) << "Ratings" << " | " << endl;
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    for (int i=0; i<=number_of_place; i++)
+    {
+        if (place_id == places[i].name)
+        {
+            cout<< "| "
+                <<left << setw(7)  << places[i].place_id << "| "
+                <<left << setw(18) <<places[i].name << "| "
+                <<left << setw(22) <<places[i].distance << "| ";
+            cout<<left << setw(23) << places[i].discription << "| ";
+            cout<<left<< setw(17)<< places[i].availability << "| "
+                << left << setw(12)  << places[i].rating  << " | " <<endl;
+            break;
+            return;
+        }
+    }
+    cout << " ---------------------------------------------------------------------------------------------------------------\n";
+    user_option();
+}
