@@ -946,3 +946,141 @@ void admin_auth()
     system("cls");
     admin_option();
 }
+
+void rank_place()
+{
+    int  place_holder;
+    bool flag = true;
+    int number_of_place;
+    string ns;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++){
+//        ranked[number_of_place] = 0;
+    }
+    Place temp;
+    number_of_place--;
+    for (int i=0; i<=number_of_place; i++)
+    {
+        for (int j=0; j <= number_of_place - 1 - i; j++)
+        {
+            if (places[j].rating < places[j + 1].rating)
+            {
+                Tswap(places[j], places[j+1]);
+            }
+        }
+    }
+    //save_place();
+
+}
+
+void display_ranked()    // displays all the registered places with detail in tabular format
+{
+    rank_place();
+    string n;
+    int number_of_place;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
+    number_of_place--;
+    cout << " ----------------------------------------------\n";
+    cout << "| "
+         << left << setw(7) << "Rank" << "| "
+         << left << setw(18)<< "Location Name" << "| "
+         << left << setw(12) << "Ratings" << " | " << endl;
+    cout << " --------------------------------------------------\n";
+    for (int i=0; i<=number_of_place; i++)
+    {
+
+        cout<< "| "
+            <<left << setw(7)  << i + 1 << "| "
+            <<left << setw(18) <<places[i].name << "| "
+            << left << setw(12)  << places[i].rating  << " | " <<endl;
+    }
+    cout << " ----------------------------------------------\n";
+    cout << "\n\npress any key to go back";
+    getline(cin >> ws, n);
+    system("cls");
+    user_option();
+}
+
+
+string ReplaceString(string text, const string& searchs, const string& replaces)
+{
+    int pos = 0;
+    while ((pos = text.find(searchs, pos)) != std::string::npos)
+    {
+        text.replace(pos, searchs.length(), replaces);
+        pos += replaces.length();
+    }
+    return text;
+}
+
+
+
+void save_place()
+{
+    cout << "-----------------------------------  Saving Places ------------------------------------";
+    ofstream place("place.txt");
+    int number_of_place;
+    for (number_of_place = 0; places[number_of_place].place_id != 0;number_of_place++);
+    number_of_place--;
+    for (int i = 0; i <= number_of_place; i++)
+    {
+        string name = ReplaceString(places[i].name, " ", "_");
+        string discr = ReplaceString(places[i].discription, " ", "_");
+        place << places[i].place_id << " " << name << " " << places[i].distance << " "
+              << discr << " " << places[i].availability << " " << places[i].rating << " " << places[i].reg << "\n";
+    }
+    place.close();
+}
+
+void read_place()
+{
+    cout << "-----------------------------------  Saving Places ------------------------------------\n";
+    // opening a file
+    ifstream read_place("place.txt");
+    if (!read_place.is_open())
+    {
+        return;
+    }
+    int i = 0;
+    while(!read_place.eof()){
+        string name;
+        string discr;
+        read_place >> places[i].place_id >> name >> places[i].distance >>
+                 discr >> places[i].availability >> places[i].rating >> places[i].reg;
+
+        places[i].name = ReplaceString(name, "_", " ");
+        places[i].discription = ReplaceString(discr, "_", " ");
+
+        i++;
+    }
+    //closing a file
+    read_place.close();
+
+}
+
+
+void save_user()
+{
+    cout << "-----------------------------------  Saving Places ------------------------------------";
+    // opening a file
+    ofstream save_user("user.txt");
+    if(save_user.is_open())
+    {
+
+    int us;
+
+    for (us = 0; users[us].user_id != 0;us++);
+    us--;
+        for (int i = 0; i <= us; i++)
+    {
+        string name = ReplaceString(users[i].name, " ", "_");
+        string username = ReplaceString(users[i].user_name, " ", "_");
+        string password = ReplaceString(users[i].password, " ", "_");
+        save_user << users[i].user_id << " " << name << " " << username <<  " " << password << " " << users[i].phone_num << " "
+              << users[i].point << "\n";
+    }
+    } else {
+    cout<<"ERROR!!!!!";
+    }
+    //closing a file
+    save_user.close();
+}
